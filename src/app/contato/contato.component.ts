@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Contato} from "./contato";
-import {ContatoService} from "../contato.service";
+import {Contato} from './contato';
+import {ContatoService} from '../contato.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-contato',
@@ -8,19 +9,22 @@ import {ContatoService} from "../contato.service";
   styleUrls: ['./contato.component.css']
 })
 export class ContatoComponent implements OnInit {
+  formulario: FormGroup;
 
   constructor(
-    private service: ContatoService
+    private service: ContatoService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    const c: Contato = new Contato();
-    c.nome = 'Anderson';
-    c.email = 'anderson@ol.com.br';
-    c.favorito = true;
-    this.service.save(c).subscribe(resposta =>
-      console.log(resposta)
-  );
+    this.formulario = this.fb.group({
+      nome: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
+
+  submit(){
+    console.log(this.formulario.value);
   }
 
 }
