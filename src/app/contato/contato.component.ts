@@ -37,8 +37,10 @@ export class ContatoComponent implements OnInit {
     });
   }
 
-  favoritar(contato: Contato){
-    contato.favorito = !contato.favorito;
+  favoritar(contato: Contato) {
+    this.service.favourite(contato).subscribe(response => {
+      contato.favorito = !contato.favorito;
+    });
   }
 
   submit() {
@@ -46,7 +48,8 @@ export class ContatoComponent implements OnInit {
     const contato: Contato = new Contato(formsValues.nome, formsValues.email);
     this.service.save(contato).subscribe(response => {
       this.contatos.push(response);
-      console.log(this.contatos);
+      let lista: Contato[] =  [... this.contatos, response];
+      this.contatos = lista;
     });
 
   }
