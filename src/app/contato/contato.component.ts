@@ -11,7 +11,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ContatoComponent implements OnInit {
   formulario: FormGroup;
   contatos: Contato[] = [];
-  colunas = ['id', 'nome', 'email', 'favorito'];
+  colunas = ['foto', 'id', 'nome', 'email', 'favorito'];
 
   constructor(
     private service: ContatoService,
@@ -49,9 +49,20 @@ export class ContatoComponent implements OnInit {
     this.service.save(contato).subscribe(response => {
       this.contatos.push(response);
       let lista: Contato[] =  [... this.contatos, response];
-      this.contatos = lista;
-    });
 
+    });
+  }
+
+  uploadPhoto(event, contato){
+    const files = event.target.files;
+    if(files){
+      const foto = files[0];
+      const formData: FormData = new FormData();
+      formData.append("foto", foto);
+      this.service.upload(contato, formData).subscribe(value => this.listarContatos());
+
+
+    }
   }
 
 
