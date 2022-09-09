@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Contato} from './contato';
 import {ContatoService} from '../contato.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
-import {ContatoDetalheComponent} from '../contato-detalhe/contato-detalhe.component';
-import {HttpParams} from '@angular/common/http';
-import {PageEvent} from '@angular/material/paginator';
+import {MatDialog} from "@angular/material/dialog";
+import {PageEvent} from "@angular/material/paginator";
+import {ContatoDetalheComponent} from "../contato-detalhe/contato-detalhe.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-contato',
@@ -16,15 +16,17 @@ export class ContatoComponent implements OnInit {
   formulario: FormGroup;
   contatos: Contato[] = [];
   colunas = ['foto', 'id', 'nome', 'email', 'favorito'];
+
   totalElementos = 0;
   pagina = 0;
-  tamanho = 10;
-  pageSizeOptions: number[] = [10];
+  tamanho = 5;
+  pageSizeOptions: number[] = [5];
 
   constructor(
     private service: ContatoService,
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -33,8 +35,8 @@ export class ContatoComponent implements OnInit {
     this.listarContatos(this.pagina, this.tamanho);
   }
 
-  listarContatos(pagina = 0, tamanhoPagina = 0) {
-    this.service.list(pagina, tamanhoPagina).subscribe(response => {
+  listarContatos(pagina = 0, tamanho = 10) {
+    this.service.list(pagina, tamanho).subscribe(response => {
       this.contatos = response.content;
       this.totalElementos = response.totalElements;
       this.pagina = response.number;
@@ -58,10 +60,11 @@ export class ContatoComponent implements OnInit {
     const formsValues = this.formulario.value;
     const contato: Contato = new Contato(formsValues.nome, formsValues.email);
     this.service.save(contato).subscribe(response => {
-      this.contatos.push(response);
-      let lista: Contato[] = [...this.contatos, response];
-      this.contatos = lista;
-
+      this.listarContatos();
+      this.snackBar.open('Contato foi adicionado!', 'Sucesso', {
+        duration: 2000
+      });
+      this.formulario.reset();
     });
   }
 
@@ -70,7 +73,7 @@ export class ContatoComponent implements OnInit {
     if (files) {
       const foto = files[0];
       const formData: FormData = new FormData();
-      formData.append('foto', foto);
+      formData.append("foto", foto);
       this.service.upload(contato, formData).subscribe(value => this.listarContatos());
 
 
@@ -86,8 +89,8 @@ export class ContatoComponent implements OnInit {
   }
 
 
-  paginar(event: PageEvent) {
-    this.pagina = event.pageIndex;
+  paginar($event: PageEvent) {
+    this.pagina = $event.pageIndex;
     this.listarContatos(this.pagina, this.tamanho);
   }
 }

@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Contato} from '../contato/contato';
-
 
 @Component({
   selector: 'app-contato-detalhe',
@@ -13,11 +12,13 @@ export class ContatoDetalheComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ContatoDetalheComponent>,
     @Inject(MAT_DIALOG_DATA) public contato: Contato
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
   }
-  fechar(){
+
+  fechar() {
     this.dialogRef.close();
   }
 

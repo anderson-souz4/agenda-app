@@ -6,12 +6,12 @@
     </mat-card-title>
   </mat-card-header>
   <img mat-card-image class="foto"
-       src="data:image/jpg;base64,{{ contato.foto }}"
-  />
+       src="data:image/jpeg;base64,{{ contato.foto }}">
+
   <mat-card-content>
     <p>
-      <strong>{{contato.nome}}</strong><br>
-      <strong>{{contato.email}}</strong>
+      <strong>{{ contato.nome }}</strong><br>
+      <strong>{{ contato.email }}</strong>
     </p>
   </mat-card-content>
 
@@ -20,4 +20,5 @@
       Fechar
     </button>
   </mat-card-actions>
+
 </mat-card>
