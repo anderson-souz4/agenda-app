@@ -10,3 +10,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .half-width{
   width: 50%;
 }
+
+.foto{
+  width: 200px;
+  height: 200px;
+}

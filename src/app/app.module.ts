@@ -17,6 +17,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ContatoDetalheComponent } from './contato-detalhe/contato-detalhe.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { ContatoDetalheComponent } from './contato-detalhe/contato-detalhe.compo
     MatIconModule,
     HttpClientModule,
     MatDialogModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatTableModule
